@@ -1,7 +1,6 @@
 venv/
-.venv/
 __pycache__/
-.ipynb_checkpoints/
 *.pyc
-*.pkl
 *.h5
+data/raw/
+.ipynb_checkpoints/
