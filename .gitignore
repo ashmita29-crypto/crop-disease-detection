@@ -2,5 +2,10 @@ venv/
 __pycache__/
 *.pyc
 *.h5
+
+.ipynb_checkpoints/
+.ipynb_checkpoints/plantvillage-dataset.zip
+
 data/raw/
-.ipynb_checkpoints/plantvillage-dataset.zip 
+data/processed/
+data/splits/
