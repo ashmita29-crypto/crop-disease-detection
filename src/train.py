@@ -5,6 +5,8 @@ Trains the CNN model on the PlantVillage dataset.
 Uses EarlyStopping to stop automatically when the model
 stops improving.
 """
+from callbacks import get_callbacks
+from plot_training import plot_training_history
 
 import os
 import tensorflow as tf
@@ -15,7 +17,7 @@ from model import build_model
 # =====================================================================
 SPLITS_DIR   = "data/splits"
 MODEL_SAVE_PATH = "models/crop_disease_cnn.h5"
-NUM_CLASSES  = 38
+NUM_CLASSES = 15
 IMAGE_SIZE   = (224, 224)
 BATCH_SIZE   = 32       # How many images to process at once
 EPOCHS       = 30       # Maximum number of training passes
@@ -74,29 +76,18 @@ model = build_model(num_classes=NUM_CLASSES)
 # EarlyStopping: stops training if validation accuracy stops improving
 # for 5 epochs in a row. Saves the best version of the model.
 
-early_stopping = tf.keras.callbacks.EarlyStopping(
-    monitor='val_accuracy',   # Watch validation accuracy
-    patience=5,               # Stop if no improvement for 5 epochs
-    restore_best_weights=True # Revert to the best weights found
-)
-
-model_checkpoint = tf.keras.callbacks.ModelCheckpoint(
-    MODEL_SAVE_PATH,
-    monitor='val_accuracy',
-    save_best_only=True,      # Only save when accuracy improves
-    verbose=1
-)
-
-# =====================================================================
-# TRAIN
-# =====================================================================
 print("\nStarting training...")
+
+callbacks = get_callbacks(MODEL_SAVE_PATH)
 history = model.fit(
     train_generator,
     epochs=EPOCHS,
     validation_data=val_generator,
-    callbacks=[early_stopping, model_checkpoint]
+    callbacks=callbacks
 )
+
+# After training finishes, plot the results
+plot_training_history(history)
 
 print("\nTraining complete!")
 print(f"Best validation accuracy: {max(history.history['val_accuracy']):.4f}")
