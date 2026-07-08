@@ -28,7 +28,7 @@ from mobilenet_model import build_mobilenet_model, unfreeze_model
 SPLITS_DIR       = "data/splits"
 MODEL_SAVE_PATH  = "models/mobilenet_crop_disease.h5"
 RESULTS_DIR      = "results"
-NUM_CLASSES      = 38
+NUM_CLASSES      = 15
 IMAGE_SIZE       = (224, 224)
 BATCH_SIZE       = 32
 PHASE1_EPOCHS    = 10

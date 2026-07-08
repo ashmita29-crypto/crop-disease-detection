@@ -1,0 +1,13 @@
+MODEL COMPARISON REPORT
+=============================================
+Custom CNN (Week 2)
+  Test Accuracy : 97.19% if cnn_acc else 'N/A'
+  Test Loss     : 0.0838 if cnn_loss else 'N/A'
+
+MobileNetV2 (Week 3)
+  Test Accuracy : 96.96% if mob_acc else 'N/A'
+  Test Loss     : 0.0914 if mob_loss else 'N/A'
+
+Winner: Custom CNN
+Improvement: 0.23%
+=============================================

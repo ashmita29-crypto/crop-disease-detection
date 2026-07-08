@@ -10,12 +10,12 @@ This file is the central model definition used by train.py.
 
 import tensorflow as tf
 
-def build_model(num_classes=38, input_shape=(224, 224, 3)):
+def build_model(num_classes=15, input_shape=(224, 224, 3)):
     """
     Builds the full CNN for crop disease classification.
     
     Args:
-        num_classes  : number of disease classes (default 38 for PlantVillage)
+        num_classes  : number of disease classes (default 15 for PlantVillage)
         input_shape  : (height, width, channels) — default (224, 224, 3)
     
     Returns:

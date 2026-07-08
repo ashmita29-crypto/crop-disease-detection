@@ -1,13 +1,6 @@
 """
 confusion_matrix.py
-
 Generates a confusion matrix for the best trained model.
-
-What is a confusion matrix?
-- A grid where rows = actual disease, columns = predicted disease
-- Diagonal = correct predictions (we want these HIGH)
-- Off-diagonal = mistakes (we want these LOW)
-- Tells us exactly which diseases the model confuses with each other
 """
 
 import os
@@ -17,6 +10,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.metrics import confusion_matrix
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 SPLITS_DIR  = "data/splits"
@@ -27,11 +21,9 @@ BATCH_SIZE  = 32
 
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-# Load model
 print("Loading model...")
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# Load test data
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     preprocessing_function=preprocess_input
 )
@@ -40,26 +32,20 @@ test_gen = datagen.flow_from_directory(
     target_size=IMAGE_SIZE,
     batch_size=BATCH_SIZE,
     class_mode='categorical',
-    shuffle=False      # IMPORTANT: must be False for confusion matrix
+    shuffle=False
 )
 
 class_names = list(test_gen.class_indices.keys())
-print(f"Classes: {len(class_names)}")
+print(f"Classes found: {len(class_names)}")
 
-# Get predictions
 print("Generating predictions...")
-predictions = model.predict(test_gen, verbose=1)
+predictions      = model.predict(test_gen, verbose=1)
 predicted_classes = np.argmax(predictions, axis=1)
 true_classes      = test_gen.classes
 
-# Compute confusion matrix
-from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(true_classes, predicted_classes)
 
-# ============================================================
-# PLOT — Full confusion matrix (38x38)
-# ============================================================
-plt.figure(figsize=(24, 20))
+plt.figure(figsize=(16, 14))
 sns.heatmap(
     cm,
     annot=True,
@@ -70,11 +56,11 @@ sns.heatmap(
     linewidths=0.3
 )
 plt.title("Confusion Matrix — MobileNetV2 Crop Disease Detection",
-          fontsize=16, pad=20)
-plt.ylabel("True Label", fontsize=13)
-plt.xlabel("Predicted Label", fontsize=13)
-plt.xticks(rotation=90, fontsize=7)
-plt.yticks(rotation=0,  fontsize=7)
+          fontsize=14, pad=20)
+plt.ylabel("True Label", fontsize=12)
+plt.xlabel("Predicted Label", fontsize=12)
+plt.xticks(rotation=45, ha='right', fontsize=8)
+plt.yticks(rotation=0, fontsize=8)
 plt.tight_layout()
 
 save_path = os.path.join(RESULTS_DIR, "confusion_matrix.png")
@@ -82,10 +68,7 @@ plt.savefig(save_path, dpi=150)
 plt.close()
 print(f"Confusion matrix saved: {save_path}")
 
-# ============================================================
-# OVERALL ACCURACY
-# ============================================================
 correct = np.trace(cm)
 total   = np.sum(cm)
-print(f"\nOverall accuracy: {correct/total*100:.2f}%")
-print(f"Correct         : {correct} / {total}")
+print(f"\nOverall accuracy : {correct/total*100:.2f}%")
+print(f"Correct          : {correct} / {total}")

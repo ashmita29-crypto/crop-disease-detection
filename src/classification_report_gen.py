@@ -4,10 +4,8 @@ classification_report_gen.py
 Generates a full classification report showing:
 - Precision : of all predictions for a class, how many were correct?
 - Recall    : of all actual instances of a class, how many did we find?
-- F1-Score  : harmonic mean of precision and recall (overall quality)
+- F1-Score  : harmonic mean of precision and recall
 - Support   : how many test images exist for each class
-
-A good model should have all three above 0.90 for every class.
 """
 
 import os
@@ -39,9 +37,10 @@ test_gen = datagen.flow_from_directory(
 )
 
 class_names = list(test_gen.class_indices.keys())
+print(f"Classes found: {len(class_names)}")
 
-print("Predicting...")
-predictions     = model.predict(test_gen, verbose=1)
+print("Predicting on test set...")
+predictions      = model.predict(test_gen, verbose=1)
 predicted_labels = np.argmax(predictions, axis=1)
 true_labels      = test_gen.classes
 
@@ -55,10 +54,10 @@ report = classification_report(
 print("\nCLASSIFICATION REPORT:")
 print(report)
 
-# Save to file
 report_path = os.path.join(RESULTS_DIR, "classification_report.txt")
 with open(report_path, "w") as f:
-    f.write("CLASSIFICATION REPORT — MobileNetV2 Crop Disease Detection\n")
+    f.write("CLASSIFICATION REPORT\n")
+    f.write("MobileNetV2 — Crop Disease Detection\n")
     f.write("="*65 + "\n\n")
     f.write(report)
 

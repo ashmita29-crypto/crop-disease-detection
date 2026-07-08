@@ -18,12 +18,12 @@ Phase 2 - FINE-TUNING: We unfreeze the top layers of MobileNetV2
 
 import tensorflow as tf
 
-def build_mobilenet_model(num_classes=38, input_shape=(224, 224, 3)):
+def build_mobilenet_model(num_classes=15, input_shape=(224, 224, 3)):
     """
     Builds MobileNetV2 transfer learning model.
     
     Args:
-        num_classes : number of disease classes (38 for PlantVillage)
+        num_classes : number of disease classes (15 for PlantVillage)
         input_shape : (height, width, channels)
     
     Returns:
@@ -133,6 +133,6 @@ def unfreeze_model(model, base_model, fine_tune_from=100):
 
 
 if __name__ == "__main__":
-    model, base_model = build_mobilenet_model(num_classes=38)
+    model, base_model = build_mobilenet_model(num_classes=15)
     model.summary()
     print("\nMobileNetV2 model built successfully!")
