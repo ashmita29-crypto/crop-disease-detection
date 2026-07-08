@@ -21,7 +21,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 SPLITS_DIR  = "data/splits"
 RESULTS_DIR = "results"
 IMAGE_SIZE  = (224, 224)
-NUM_CLASSES = 38
+NUM_CLASSES = 15
 TUNE_EPOCHS = 5       # Short runs to compare configs
 
 os.makedirs(RESULTS_DIR, exist_ok=True)

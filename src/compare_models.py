@@ -116,18 +116,14 @@ print(f"\nComparison chart saved: {save_path}")
 report = f"""MODEL COMPARISON REPORT
 {'='*45}
 Custom CNN (Week 2)
-  Test Accuracy : {cnn_acc*100:.2f}% if cnn_acc else 'N/A'
-  Test Loss     : {cnn_loss:.4f} if cnn_loss else 'N/A'
+  Test Accuracy : {f'{cnn_acc*100:.2f}%' if cnn_acc else 'N/A'}
+  Test Loss     : {f'{cnn_loss:.4f}' if cnn_loss else 'N/A'}
 
 MobileNetV2 (Week 3)
-  Test Accuracy : {mob_acc*100:.2f}% if mob_acc else 'N/A'
-  Test Loss     : {mob_loss:.4f} if mob_loss else 'N/A'
+  Test Accuracy : {f'{mob_acc*100:.2f}%' if mob_acc else 'N/A'}
+  Test Loss     : {f'{mob_loss:.4f}' if mob_loss else 'N/A'}
 
-Winner: {'MobileNetV2' if mob_acc and cnn_acc and mob_acc > cnn_acc else 'Custom CNN'}
-Improvement: {abs((mob_acc or 0) - (cnn_acc or 0))*100:.2f}%
+Winner        : {'MobileNetV2' if mob_acc and cnn_acc and mob_acc > cnn_acc else 'Custom CNN'}
+Improvement   : {abs((mob_acc or 0) - (cnn_acc or 0))*100:.2f}%
 {'='*45}
 """
-
-with open(os.path.join(RESULTS_DIR, "comparison_report.txt"), "w") as f:
-    f.write(report)
-print(report)
